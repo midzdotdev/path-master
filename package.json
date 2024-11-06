@@ -20,5 +20,8 @@
   },
   "lint-staged": {
     "*.{ts,md,json,}": "prettier --write"
+  },
+  "volta": {
+    "node": "22.11.0"
   }
 }
