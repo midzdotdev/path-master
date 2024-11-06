@@ -1,5 +1,9 @@
 {
   "name": "@midzdotdev/path-master",
   "version": "0.1.0",
-  "exports": "./src/mod.ts"
+  "exports": "./src/mod.ts",
+  "publish": {
+    "include": ["src/", "jsr.json", "LICENSE", "package.json", "README.md"],
+    "exclude": ["src/__testing/", "**/*.test-d.ts", "**/*.test.ts"]
+  }
 }
