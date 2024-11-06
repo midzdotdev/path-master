@@ -1,5 +1,7 @@
 # path-master
 
+[![JSR](https://jsr.io/badges/@midzdotdev/path-master)](https://jsr.io/@midzdotdev/path-master)
+
 `path-master` is a TypeScript library that simplifies working with dynamic file structures.
 
 You can think of `path-master` as providing structure to files in the same way that JSON provides structure to data.
