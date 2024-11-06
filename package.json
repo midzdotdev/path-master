@@ -1,16 +1,10 @@
 {
-  "name": "path-master",
-  "version": "0.0.1",
-  "description": "🧭 Storage paths done neatly in TypeScript",
+  "private": true,
   "type": "module",
-  "main": "./src/mod.ts",
   "scripts": {
     "lint": "tsc",
     "test": "vitest --typecheck"
   },
-  "author": "James Middleton <james@midz.dev>",
-  "license": "MIT",
-  "repository": "github:midzdotdev/path-master",
   "dependencies": {
     "ts-toolbelt": "^9.6.0"
   },
