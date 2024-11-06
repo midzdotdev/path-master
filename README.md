@@ -1,6 +1,7 @@
 # path-master
 
 [![JSR](https://jsr.io/badges/@midzdotdev/path-master)](https://jsr.io/@midzdotdev/path-master)
+[![Release Workflow](https://github.com/midzdotdev/path-master/actions/workflows/release.yml/badge.svg)](https://github.com/midzdotdev/path-master/actions/workflows/release.yml)
 
 `path-master` is a TypeScript library that simplifies working with dynamic file structures.
 
