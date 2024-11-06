@@ -291,8 +291,8 @@ const hlsPackageModel = dir(
 
 const masterPlaylistToVariantPlaylist = getRelativeUrlPath(
   hlsPackageModel,
-  ['variantStream.playlist', { videoId: 42, quality: 720 }],
-  ['variantStream.segment', { videoId: 42, quality: 720, segmentId: 11 }]
+  ['manifest', { videoId: 42, quality: 720 }],
+  ['variantStream.playlist', { videoId: 42, quality: 720, segmentId: 11 }]
 )
 // result: "stream_720/playlist.m3u8"
 
