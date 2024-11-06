@@ -1,11 +1,11 @@
-import { expectTypeOf } from "vitest";
-import { dir, DirNode, file, FileNode } from "../model";
+import { expectTypeOf } from 'vitest'
+import { dir, DirNode, file, FileNode } from '../model'
 
-export const staticFileFixture = file("file.ext");
+export const staticFileFixture = file('file.ext')
 
 export const dynamicFileFixture = file(
   ({ fileParam }: { fileParam: string }) => `file_${fileParam}.ext`
-);
+)
 
 export const hlsPackageFixture = dir(
   ({ videoId }: { videoId: number }) => `videos/${videoId}`,
@@ -22,22 +22,22 @@ export const hlsPackageFixture = dir(
       }
     ),
   }
-);
+)
 
 expectTypeOf(hlsPackageFixture).toEqualTypeOf<
   DirNode<
     { videoId: number },
     `videos/${number}`,
     {
-      manifest: FileNode<unknown, `master.m3u8`>;
+      manifest: FileNode<unknown, `master.m3u8`>
       variantStream: DirNode<
         { quality: number },
         `stream_${number}`,
         {
-          playlist: FileNode<unknown, `playlist.m3u8`>;
-          segment: FileNode<{ segmentIndex: number }, `segment_${number}.ts`>;
+          playlist: FileNode<unknown, `playlist.m3u8`>
+          segment: FileNode<{ segmentIndex: number }, `segment_${number}.ts`>
         }
-      >;
+      >
     }
   >
->();
+>()

@@ -1,62 +1,62 @@
-import { expectTypeOf, test } from "vitest";
-import { hlsPackageFixture } from "../__testing/fixtures";
-import { collectDependencies, collectPath, getKeypaths } from "./multi-node";
+import { expectTypeOf, test } from 'vitest'
+import { hlsPackageFixture } from '../__testing/fixtures'
+import { collectDependencies, collectPath, getKeypaths } from './multi-node'
 
-test("collectDependencies", () => {
+test('collectDependencies', () => {
   expectTypeOf<
-    collectDependencies<typeof hlsPackageFixture, "">
-  >().toEqualTypeOf<{ videoId: number }>();
+    collectDependencies<typeof hlsPackageFixture, ''>
+  >().toEqualTypeOf<{ videoId: number }>()
 
   expectTypeOf<
-    collectDependencies<typeof hlsPackageFixture, "manifest">
+    collectDependencies<typeof hlsPackageFixture, 'manifest'>
   >().toEqualTypeOf<{
-    videoId: number;
-  }>();
+    videoId: number
+  }>()
 
   expectTypeOf<
-    collectDependencies<typeof hlsPackageFixture, "variantStream.playlist">
+    collectDependencies<typeof hlsPackageFixture, 'variantStream.playlist'>
   >().toEqualTypeOf<{
-    videoId: number;
-    quality: number;
-  }>();
+    videoId: number
+    quality: number
+  }>()
 
   expectTypeOf<
-    collectDependencies<typeof hlsPackageFixture, "variantStream.segment">
+    collectDependencies<typeof hlsPackageFixture, 'variantStream.segment'>
   >().toEqualTypeOf<{
-    videoId: number;
-    quality: number;
-    segmentIndex: number;
-  }>();
+    videoId: number
+    quality: number
+    segmentIndex: number
+  }>()
 
   expectTypeOf<
-    collectDependencies<(typeof hlsPackageFixture)["children"]["manifest"], "">
-  >().toEqualTypeOf<{}>();
-});
+    collectDependencies<(typeof hlsPackageFixture)['children']['manifest'], ''>
+  >().toEqualTypeOf<{}>()
+})
 
-test("getLeafKeys", () => {
+test('getLeafKeys', () => {
   expectTypeOf<getKeypaths<typeof hlsPackageFixture>>().toEqualTypeOf<
-    | ""
-    | "manifest"
-    | "variantStream"
-    | "variantStream.playlist"
-    | "variantStream.segment"
-  >();
+    | ''
+    | 'manifest'
+    | 'variantStream'
+    | 'variantStream.playlist'
+    | 'variantStream.segment'
+  >()
 
   expectTypeOf<
-    getKeypaths<(typeof hlsPackageFixture)["children"]["manifest"]>
-  >().toEqualTypeOf<"">();
-});
+    getKeypaths<(typeof hlsPackageFixture)['children']['manifest']>
+  >().toEqualTypeOf<''>()
+})
 
-test("collectPath", () => {
+test('collectPath', () => {
   expectTypeOf<
-    collectPath<typeof hlsPackageFixture, "manifest">
-  >().toEqualTypeOf<`videos/${number}/master.m3u8`>();
-
-  expectTypeOf<
-    collectPath<typeof hlsPackageFixture, "variantStream.playlist">
-  >().toEqualTypeOf<`videos/${number}/stream_${number}/playlist.m3u8`>();
+    collectPath<typeof hlsPackageFixture, 'manifest'>
+  >().toEqualTypeOf<`videos/${number}/master.m3u8`>()
 
   expectTypeOf<
-    collectPath<typeof hlsPackageFixture, "variantStream.segment">
-  >().toEqualTypeOf<`videos/${number}/stream_${number}/segment_${number}.ts`>();
-});
+    collectPath<typeof hlsPackageFixture, 'variantStream.playlist'>
+  >().toEqualTypeOf<`videos/${number}/stream_${number}/playlist.m3u8`>()
+
+  expectTypeOf<
+    collectPath<typeof hlsPackageFixture, 'variantStream.segment'>
+  >().toEqualTypeOf<`videos/${number}/stream_${number}/segment_${number}.ts`>()
+})

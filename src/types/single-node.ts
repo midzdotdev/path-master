@@ -1,4 +1,4 @@
-import { DirNode, FileNode, Node } from "../model";
+import { DirNode, FileNode, Node } from '../model'
 
 // prettier-ignore
 export type getDependencies<TNode extends Node> =

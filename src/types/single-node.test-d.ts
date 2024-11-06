@@ -1,41 +1,41 @@
-import { expectTypeOf, test } from "vitest";
-import { hlsPackageFixture } from "../__testing/fixtures";
-import { getChildren, getDependencies, getPath } from "./single-node";
+import { expectTypeOf, test } from 'vitest'
+import { hlsPackageFixture } from '../__testing/fixtures'
+import { getChildren, getDependencies, getPath } from './single-node'
 
-test("getDependencies", () => {
+test('getDependencies', () => {
   expectTypeOf<getDependencies<typeof hlsPackageFixture>>().toEqualTypeOf<{
-    videoId: number;
-  }>();
+    videoId: number
+  }>()
 
   expectTypeOf<
     getDependencies<
-      (typeof hlsPackageFixture)["children"]["variantStream"]["children"]["segment"]
+      (typeof hlsPackageFixture)['children']['variantStream']['children']['segment']
     >
   >().toEqualTypeOf<{
-    segmentIndex: number;
-  }>();
+    segmentIndex: number
+  }>()
 
   expectTypeOf<
-    getDependencies<(typeof hlsPackageFixture)["children"]["manifest"]>
-  >().toEqualTypeOf<unknown>();
-});
+    getDependencies<(typeof hlsPackageFixture)['children']['manifest']>
+  >().toEqualTypeOf<unknown>()
+})
 
-test("getPath", () => {
+test('getPath', () => {
   expectTypeOf<
     getPath<typeof hlsPackageFixture>
-  >().toEqualTypeOf<`videos/${number}`>();
+  >().toEqualTypeOf<`videos/${number}`>()
 
   expectTypeOf<
-    getPath<(typeof hlsPackageFixture)["children"]["manifest"]>
-  >().toEqualTypeOf<`master.m3u8`>();
-});
+    getPath<(typeof hlsPackageFixture)['children']['manifest']>
+  >().toEqualTypeOf<`master.m3u8`>()
+})
 
-test("getChildren", () => {
+test('getChildren', () => {
   expectTypeOf<getChildren<typeof hlsPackageFixture>>().toEqualTypeOf<
-    (typeof hlsPackageFixture)["children"]
-  >();
+    (typeof hlsPackageFixture)['children']
+  >()
 
   expectTypeOf<
-    getChildren<(typeof hlsPackageFixture)["children"]["manifest"]>
-  >().toEqualTypeOf<{}>();
-});
+    getChildren<(typeof hlsPackageFixture)['children']['manifest']>
+  >().toEqualTypeOf<{}>()
+})

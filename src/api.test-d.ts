@@ -1,19 +1,19 @@
-import { describe, test } from "vitest";
-import { dynamicFileFixture, staticFileFixture } from "./__testing/fixtures";
-import { getPath } from "./api";
+import { describe, test } from 'vitest'
+import { dynamicFileFixture, staticFileFixture } from './__testing/fixtures'
+import { getPath } from './api'
 
-describe("getPath", () => {
-  test("requires dependencies when not empty and properly constrains structure", () => {
-    getPath(staticFileFixture, "");
+describe('getPath', () => {
+  test('requires dependencies when not empty and properly constrains structure', () => {
+    getPath(staticFileFixture, '')
     // @ts-expect-error The dependencies must be empty.
-    getPath(staticFileNode, "", { hello: true });
+    getPath(staticFileNode, '', { hello: true })
 
-    getPath(dynamicFileFixture, "", { fileParam: "hello" });
+    getPath(dynamicFileFixture, '', { fileParam: 'hello' })
     // @ts-expect-error Requires dependencies.
-    getPath(dynamicFileFixture, "");
+    getPath(dynamicFileFixture, '')
     // @ts-expect-error Dependencies must be the correct type.
-    getPath(dynamicFileFixture, "", {});
+    getPath(dynamicFileFixture, '', {})
     // @ts-expect-error Dependencies must be the correct type.
-    getPath(dynamicFileFixture, "", { hello: true });
-  });
-});
+    getPath(dynamicFileFixture, '', { hello: true })
+  })
+})

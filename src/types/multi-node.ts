@@ -1,7 +1,7 @@
-import { Any } from "ts-toolbelt";
-import { DirNode, Node } from "../model";
-import { Join } from "../utils/types";
-import { getChildren, getDependencies, getPath } from "./single-node";
+import { Any } from 'ts-toolbelt'
+import { DirNode, Node } from '../model'
+import { Join } from '../utils/types'
+import { getChildren, getDependencies, getPath } from './single-node'
 
 /**
  * Gets the keypaths for all nodes (root and children) in the model.
@@ -27,7 +27,7 @@ import { getChildren, getDependencies, getPath } from "./single-node";
     //   ^? "" | "file1" | "dir1" | "dir1.file2"
     ```
  */
-export type getKeypaths<TNode extends Node> = _getKeypaths<TNode, "">;
+export type getKeypaths<TNode extends Node> = _getKeypaths<TNode, ''>
 
 // prettier-ignore
 type _getKeypaths<
@@ -77,8 +77,8 @@ type _getKeypaths<
  */
 export type collectDependencies<
   TNode extends Node,
-  TKeypath extends string
-> = _collectDependencies<TNode, TKeypath, {}>;
+  TKeypath extends string,
+> = _collectDependencies<TNode, TKeypath, {}>
 
 // prettier-ignore
 type _collectDependencies<
@@ -130,8 +130,8 @@ type _collectDependencies<
  */
 export type collectPath<
   TNode extends Node,
-  TKeypath extends string
-> = _collectPath<TNode, TKeypath, "">;
+  TKeypath extends string,
+> = _collectPath<TNode, TKeypath, ''>
 
 // prettier-ignore
 type _collectPath<

@@ -1,9 +1,9 @@
-import path from "node:path";
-import { describe, expect, test } from "vitest";
-import { getRelativePathBetween } from "./relative-path";
+import path from 'node:path'
+import { describe, expect, test } from 'vitest'
+import { getRelativePathBetween } from './relative-path'
 
-describe("getRelativePath", () => {
-  describe("fs mode", () => {
+describe('getRelativePath', () => {
+  describe('fs mode', () => {
     test.each(
       // prettier-ignore
       [
@@ -17,15 +17,15 @@ describe("getRelativePath", () => {
         ["cousin", "a/b/c", "a/d/e", "../../d/e"],
         ["stranger", "a/b/c", "x/y/z", "../../../x/y/z"],
       ]
-    )("%s (`%s` -> `%s`)", (_, from, to, expected) => {
-      expect(to, "Test case is incorrect").toBe(path.join(from, expected));
+    )('%s (`%s` -> `%s`)', (_, from, to, expected) => {
+      expect(to, 'Test case is incorrect').toBe(path.join(from, expected))
 
       // verifies the test cases are valid using the URL Web API
-      expect(getRelativePathBetween(from, to, "fs")).toBe(expected);
-    });
-  });
+      expect(getRelativePathBetween(from, to, 'fs')).toBe(expected)
+    })
+  })
 
-  describe("url mode", () => {
+  describe('url mode', () => {
     test.each(
       // prettier-ignore
       [
@@ -49,14 +49,14 @@ describe("getRelativePath", () => {
         ["stranger", "a/b/c", "x/y/z", "../../x/y/z" ],
         ["stranger (/)", "a/b/c/", "x/y/z", "../../../x/y/z" ],
       ]
-    )("%s: (`%s` -> `%s`) gives `%s`", (_, from, to, expected) => {
+    )('%s: (`%s` -> `%s`) gives `%s`', (_, from, to, expected) => {
       // verifies the test cases are valid using the URL Web API
       expect(
         new URL(expected, `https://foo.bar/${from}`).pathname.slice(1),
-        "Test case is incorrect"
-      ).toBe(to);
+        'Test case is incorrect'
+      ).toBe(to)
 
-      expect(getRelativePathBetween(from, to, "url")).toBe(expected);
-    });
-  });
-});
+      expect(getRelativePathBetween(from, to, 'url')).toBe(expected)
+    })
+  })
+})

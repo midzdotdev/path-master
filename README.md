@@ -94,11 +94,11 @@ The path can be either:
 - **dynamic** as a callback with a _dependencies_ param
 
 ```ts
-const staticFile = file("foo.ext");
+const staticFile = file('foo.ext')
 
 const dynamicFile = file(
   ({ myParam }: { myParam: string }) => `foo_${myParam}.ext`
-);
+)
 ```
 
 > You have to type dependencies manually and they must be assignable to `Record<string, any>`.
@@ -108,18 +108,18 @@ const dynamicFile = file(
 The `dir` modelling function has an additional parameter `children` so you can recursively nest directories and files inside it.
 
 ```ts
-const myDir = dir("my_dir", {
+const myDir = dir('my_dir', {
   staticFile,
-});
+})
 
-const deepDir = dir("deep_dir", {
-  surfaceFile: file("foo.ext"),
-  level1: dir("level_1", {
-    level2: dir("level_2", {
-      deepFile: file("bar.ext"),
+const deepDir = dir('deep_dir', {
+  surfaceFile: file('foo.ext'),
+  level1: dir('level_1', {
+    level2: dir('level_2', {
+      deepFile: file('bar.ext'),
     }),
   }),
-});
+})
 ```
 
 ### Example: Modelling our HLS package
@@ -141,7 +141,7 @@ Here is the desired psuedo-model copied for convenience:
 Using our `dir` and `file` modelling functions, we can define our model:
 
 ```ts
-import { dir, file } from "@midzdotdev/path-master";
+import { dir, file } from '@midzdotdev/path-master'
 
 const hlsPackageModel = dir(
   ({ videoId }: { videoId: number }) => `videos/${videoId}`,
@@ -157,7 +157,7 @@ const hlsPackageModel = dir(
       }
     ),
   }
-);
+)
 ```
 
 The path of a node in the model can span across multiple directories (e.g. `videos/${videoId}` above).
@@ -182,7 +182,7 @@ declare const getPath: (
   model: FileNode | DirNode,
   keypath: string,
   dependencies: {}
-) => string;
+) => string
 ```
 
 The parameters are:
@@ -192,7 +192,7 @@ The parameters are:
 - _dependencies_: an object with all the dependencies from the node and it's ancestors
 
 ```ts
-import { dir, file, getPath } from "@midzdotdev/path-master";
+import { dir, file, getPath } from '@midzdotdev/path-master'
 
 const hlsPackageModel = dir(
   ({ videoId }: { videoId: number }) => `videos/${videoId}`,
@@ -208,24 +208,24 @@ const hlsPackageModel = dir(
       }
     ),
   }
-);
+)
 
-const hlsPackagePath = getPath(hlsPackageModel, "", { videoId: 42 });
+const hlsPackagePath = getPath(hlsPackageModel, '', { videoId: 42 })
 // result: "videos/42/"
 // type: `videos/${number}`
 
-const streamPlaylist = getPath(hlsPackageModel, "variantStream.playlist", {
+const streamPlaylist = getPath(hlsPackageModel, 'variantStream.playlist', {
   videoId: 42,
   quality: 720,
-});
+})
 // result: "videos/42/stream_720/playlist.m3u8"
 // type: `videos/${number}/stream_${number}/playlist.m3u8`
 
-const segment11 = getPath(hlsPackageModel, "variantStream.segment", {
+const segment11 = getPath(hlsPackageModel, 'variantStream.segment', {
   videoId: 42,
   quality: 720,
   segmentId: 11,
-});
+})
 // result: "videos/42/stream_720/segment_11.ts"
 // type: `videos/${number}/stream_${number}/segment_${number}.ts`
 ```
@@ -260,7 +260,7 @@ declare const x: (
   model: FileNode | DirNode,
   from: string | [keypath: string, dependencies: {}],
   to: string | [keypath: string, dependencies: {}]
-) => string;
+) => string
 ```
 
 > If the node specified by _from_ or _to_'s keypath does not require dependencies, then you can just pass the keypath string.
@@ -268,7 +268,7 @@ declare const x: (
 Since our example model being a HLS package only concerns itself with URLs, we'll demonstrate with `getRelativeUrlPath`.
 
 ```ts
-import { dir, file, getRelativeUrlPath } from "@midzdotdev/path-master";
+import { dir, file, getRelativeUrlPath } from '@midzdotdev/path-master'
 
 const hlsPackageModel = dir(
   ({ videoId }: { videoId: number }) => `videos/${videoId}`,
@@ -284,20 +284,20 @@ const hlsPackageModel = dir(
       }
     ),
   }
-);
+)
 
 const masterPlaylistToVariantPlaylist = getRelativeUrlPath(
   hlsPackageModel,
-  ["variantStream.playlist", { videoId: 42, quality: 720 }],
-  ["variantStream.segment", { videoId: 42, quality: 720, segmentId: 11 }]
-);
+  ['variantStream.playlist', { videoId: 42, quality: 720 }],
+  ['variantStream.segment', { videoId: 42, quality: 720, segmentId: 11 }]
+)
 // result: "stream_720/playlist.m3u8"
 
 const variantPlaylistToSegment = getRelativeUrlPath(
   hlsPackageModel,
-  ["variantStream.playlist", { videoId: 42, quality: 720 }],
-  ["variantStream.segment", { videoId: 42, quality: 720, segmentId: 11 }]
-);
+  ['variantStream.playlist', { videoId: 42, quality: 720 }],
+  ['variantStream.segment', { videoId: 42, quality: 720, segmentId: 11 }]
+)
 // result: "segment_11.ts"
 ```
 
