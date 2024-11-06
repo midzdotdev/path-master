@@ -1,5 +1,5 @@
 import { expectTypeOf } from "vitest";
-import { dir, DirNode, file, FileNode } from "~/model";
+import { dir, DirNode, file, FileNode } from "../model";
 
 export const staticFileFixture = file("file.ext");
 

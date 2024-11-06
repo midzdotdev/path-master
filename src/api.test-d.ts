@@ -1,6 +1,6 @@
 import { describe, test } from "vitest";
-import { dynamicFileFixture, staticFileFixture } from "~/__testing/fixtures";
-import { getPath } from "~/api";
+import { dynamicFileFixture, staticFileFixture } from "./__testing/fixtures";
+import { getPath } from "./api";
 
 describe("getPath", () => {
   test("requires dependencies when not empty and properly constrains structure", () => {

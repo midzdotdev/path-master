@@ -1,14 +1,14 @@
-import { isDirNode, Node } from "~/model";
+import { isDirNode, Node } from "./model";
 import {
   collectDependencies,
   collectPath,
   getKeypaths,
-} from "~/types/multi-node";
+} from "./types/multi-node";
 import {
   getRelativePathBetween,
   RelativePathMode,
-} from "~/utils/relative-path";
-import { EmptyRecord } from "~/utils/types";
+} from "./utils/relative-path";
+import { EmptyRecord } from "./utils/types";
 
 const traverseToKeypath = (
   model: Node,

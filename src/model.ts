@@ -1,4 +1,4 @@
-import { EmptyRecord } from "~/utils/types";
+import { EmptyRecord } from "./utils/types";
 
 type Path<TDependencies, TPathName extends string> =
   | TPathName

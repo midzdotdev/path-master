@@ -3,10 +3,10 @@ import {
   dynamicFileFixture,
   hlsPackageFixture,
   staticFileFixture,
-} from "~/__testing/fixtures";
-import { getRelativePath } from "~/__testing/helpers";
-import { getPath } from "~/api";
-import { RelativePathMode } from "~/utils/relative-path";
+} from "./__testing/fixtures";
+import { getRelativePath } from "./__testing/helpers";
+import { getPath } from "./api";
+import { RelativePathMode } from "./utils/relative-path";
 
 describe("getPath", () => {
   describe('gives the expected path of the root node (keypath: "")', () => {

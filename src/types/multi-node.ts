@@ -1,7 +1,7 @@
 import { Any } from "ts-toolbelt";
-import { DirNode, Node } from "~/model";
-import { getChildren, getDependencies, getPath } from "~/types/single-node";
-import { Join } from "~/utils/types";
+import { DirNode, Node } from "../model";
+import { Join } from "../utils/types";
+import { getChildren, getDependencies, getPath } from "./single-node";
 
 /**
  * Gets the keypaths for all nodes (root and children) in the model.

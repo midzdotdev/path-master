@@ -1,6 +1,6 @@
 import path from "node:path";
 import { describe, expect, test } from "vitest";
-import { getRelativePathBetween } from "~/utils/relative-path";
+import { getRelativePathBetween } from "./relative-path";
 
 describe("getRelativePath", () => {
   describe("fs mode", () => {

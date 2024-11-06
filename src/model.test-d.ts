@@ -1,5 +1,5 @@
 import { expectTypeOf, test } from "vitest";
-import { dir, DirNode, file, FileNode } from "~/model";
+import { dir, DirNode, file, FileNode } from "./model";
 
 const staticFileFixture = file(`testy_test`);
 const dynamicFileFixture = file(({ test }: { test: number }) => `test_${test}`);

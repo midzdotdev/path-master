@@ -1,6 +1,6 @@
 import { expectTypeOf, test } from "vitest";
-import { hlsPackageFixture } from "~/__testing/fixtures";
-import { getChildren, getDependencies, getPath } from "~/types/single-node";
+import { hlsPackageFixture } from "../__testing/fixtures";
+import { getChildren, getDependencies, getPath } from "./single-node";
 
 test("getDependencies", () => {
   expectTypeOf<getDependencies<typeof hlsPackageFixture>>().toEqualTypeOf<{

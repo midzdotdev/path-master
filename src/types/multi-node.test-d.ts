@@ -1,10 +1,6 @@
 import { expectTypeOf, test } from "vitest";
-import { hlsPackageFixture } from "~/__testing/fixtures";
-import {
-  collectDependencies,
-  collectPath,
-  getKeypaths,
-} from "~/types/multi-node";
+import { hlsPackageFixture } from "../__testing/fixtures";
+import { collectDependencies, collectPath, getKeypaths } from "./multi-node";
 
 test("collectDependencies", () => {
   expectTypeOf<
