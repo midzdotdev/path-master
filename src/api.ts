@@ -111,7 +111,7 @@ const _getRelativePath =
       TKeypathTo,
       collectDependencies<TModel, TKeypathTo>
     >
-  ) => {
+  ): string => {
     const normFrom = normaliseKeypathWithDependenciesArg(from);
     const normTo = normaliseKeypathWithDependenciesArg(to);
 
@@ -130,7 +130,8 @@ const _getRelativePath =
  *
  * @returns The relative path between the two nodes.
  */
-export const getRelativeUrlPath = _getRelativePath("url");
+export const getRelativeUrlPath: ReturnType<typeof _getRelativePath> =
+  _getRelativePath("url");
 
 /**
  * Get the relative path between two nodes for use with the filesystem.
@@ -141,4 +142,5 @@ export const getRelativeUrlPath = _getRelativePath("url");
  *
  * @returns The relative path between the two nodes.
  */
-export const getRelativeFsPath = _getRelativePath("fs");
+export const getRelativeFsPath: ReturnType<typeof _getRelativePath> =
+  _getRelativePath("fs");
