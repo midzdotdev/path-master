@@ -22,7 +22,7 @@
     "vitest": "^2.1.4"
   },
   "lint-staged": {
-    "*.{ts,md,json,}": "prettier --write"
+    "*.{ts,md,json,yml}": "prettier --write"
   },
   "volta": {
     "node": "22.11.0"
