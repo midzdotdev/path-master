@@ -43,7 +43,6 @@ type DependenciesSpreadArg<TDependencies> = keyof TDependencies extends never
  * @param model The root node.
  * @param keypath The keypath to traverse.
  * @param dependencies Dependencies, defined when dealing with dynamic paths.
- *
  * @returns The full path of a node.
  */
 export const getPath = <
@@ -126,9 +125,10 @@ const _getRelativePath =
  * Get the relative path between two nodes for use in URLs.
  *
  * @param model The root node.
- * @param from The keypath of the source node or a tuple of `[keypath, dependencies]` if requiring dependencies.
- * @param to The keypath of the destination node or a tuple of `[keypath, dependencies]` if requiring dependencies.
- *
+ * @param from The keypath of the source node or a tuple of `[keypath,
+ *   dependencies]` if requiring dependencies.
+ * @param to The keypath of the destination node or a tuple of `[keypath,
+ *   dependencies]` if requiring dependencies.
  * @returns The relative path between the two nodes.
  */
 export const getRelativeUrlPath: GetRelativePathFn = _getRelativePath('url')
@@ -137,9 +137,10 @@ export const getRelativeUrlPath: GetRelativePathFn = _getRelativePath('url')
  * Get the relative path between two nodes for use with the filesystem.
  *
  * @param model The root node.
- * @param from The keypath of the source node or a tuple of `[keypath, dependencies]` if requiring dependencies.
- * @param to The keypath of the destination node or a tuple of `[keypath, dependencies]` if requiring dependencies.
- *
+ * @param from The keypath of the source node or a tuple of `[keypath,
+ *   dependencies]` if requiring dependencies.
+ * @param to The keypath of the destination node or a tuple of `[keypath,
+ *   dependencies]` if requiring dependencies.
  * @returns The relative path between the two nodes.
  */
 export const getRelativeFsPath: GetRelativePathFn = _getRelativePath('fs')

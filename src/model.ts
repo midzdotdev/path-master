@@ -49,7 +49,6 @@ type ChildrenArg<TChildren> =
  *
  * @param path The path segment of the file node (including extension).
  * @returns A file node.
- *
  * @see {@link https://jsr.io/@midzdotdev/path-master#create-a-model}
  */
 export const file = <TDependencies, TPathName extends string>(
@@ -60,10 +59,10 @@ export const file = <TDependencies, TPathName extends string>(
 /**
  * Creates a directory node for modelling.
  *
- * @param path The path segment of the directory node (excluding trailing slash).
+ * @param path The path segment of the directory node (excluding trailing
+ *   slash).
  * @param children The file and directory nodes within this directory.
  * @returns A directory node.
- *
  * @see {@link https://jsr.io/@midzdotdev/path-master#create-a-model}
  */
 export const dir = <TDependencies, const TPathName extends string, TChildren>(

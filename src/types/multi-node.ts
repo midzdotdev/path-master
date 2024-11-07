@@ -5,27 +5,25 @@ import { getChildren, getDependencies, getPath } from './single-node'
 
 /**
  * Gets the keypaths for all nodes (root and children) in the model.
- * 
+ *
  * Keypaths are delimitted by a dot `"."` and are used to traverse the model.
  * The root node has a keypath of "".
- * 
+ *
+ * @example
+ *   import { dir, file, getKeypaths } from 'path-master'
+ *
+ *   const myModel = dir('d0', {
+ *     file1: file('f1'),
+ *     dir1: dir('d1', {
+ *       file2: file('f2'),
+ *     }),
+ *   })
+ *
+ *   type Keypaths = getKeypaths<typeof myModel>
+ *   //   ^? "" | "file1" | "dir1" | "dir1.file2"
+ *
  * @template TNode The model in which to search for keypaths.
  * @returns The keypaths for all nodes in the model.
- * 
- * @example
-    ```ts
-    import { dir, file, getKeypaths } from "path-master";
-
-    const myModel = dir("d0", {
-      file1: file("f1"),
-      dir1: dir("d1", {
-        file2: file("f2"),
-      }),
-    });
-
-    type Keypaths = getKeypaths<typeof myModel>;
-    //   ^? "" | "file1" | "dir1" | "dir1.file2"
-    ```
  */
 export type getKeypaths<TNode extends Node> = _getKeypaths<TNode, ''>
 
@@ -47,33 +45,35 @@ type _getKeypaths<
     );
 
 /**
- * Collects the dependencies of a node (specified by its keypath) all the way from the root.
+ * Collects the dependencies of a node (specified by its keypath) all the way
+ * from the root.
  *
- * Dependencies are the data required to generate the path of a node, and are defined with as an object type.
- * 
+ * Dependencies are the data required to generate the path of a node, and are
+ * defined with as an object type.
+ *
+ * @example
+ *   import { dir, file, collectDependencies } from 'path-master'
+ *
+ *   const myModel = dir('d0', {
+ *     file1: file('f1'),
+ *     dir1: dir(({ dirParam }: { dirParam: string }) => `d1_${dirParam}`, {
+ *       file2: file(
+ *         ({ fileParam }: { fileParam: number }) => `f2_${fileParam}`
+ *       ),
+ *     }),
+ *   })
+ *
+ *   type File1Example = collectDependencies<typeof myModel, 'file1'>
+ *   //   ^? {}
+ *
+ *   type Dir1Example = collectDependencies<typeof myModel, 'dir1'>
+ *   //   ^? { dirParam: string }
+ *
+ *   type File2Example = collectDependencies<typeof myModel, 'dir1.file2'>
+ *   //   ^? { dirParam: string; fileParam: number }
+ *
  * @template TNode The model in which to search for dependencies.
  * @template TKeypath The keypath of the node for which to collect dependencies.
- * 
- * @example
-    ```ts
-    import { dir, file, collectDependencies } from "path-master";
-
-    const myModel = dir("d0", {
-      file1: file("f1"),
-      dir1: dir(({ dirParam }: { dirParam: string }) => `d1_${dirParam}`, {
-        file2: file(({ fileParam }: { fileParam: number }) => `f2_${fileParam}`),
-      }),
-    });
-
-    type File1Example = collectDependencies<typeof myModel, "file1">;
-    //   ^? {}
-
-    type Dir1Example = collectDependencies<typeof myModel, "dir1">;
-    //   ^? { dirParam: string }
-
-    type File2Example = collectDependencies<typeof myModel, "dir1.file2">;
-    //   ^? { dirParam: string; fileParam: number }
-    ```
  */
 export type collectDependencies<
   TNode extends Node,
@@ -105,28 +105,29 @@ type _collectDependencies<
         : never;
 
 /**
- * Gets the full path of a node (specified by its keypath) by concatenating each path during the tree traversal.
- * 
+ * Gets the full path of a node (specified by its keypath) by concatenating each
+ * path during the tree traversal.
+ *
+ * @example
+ *   import { dir, file, collectPath } from 'path-master'
+ *
+ *   const myModel = dir('d0', {
+ *     file1: file('f1'),
+ *     dir1: dir(({ dirParam }: { dirParam: string }) => `d1_${dirParam}`, {
+ *       file2: file(
+ *         ({ fileParam }: { fileParam: number }) => `f2_${fileParam}`
+ *       ),
+ *     }),
+ *   })
+ *
+ *   type RootExample = collectPath<typeof myModel, ''>
+ *   //   ^? "d0"
+ *
+ *   type File2Example = collectPath<typeof myModel, 'dir1.file2'>
+ *   //   ^? `d0/d1_${string}/f2_${number}`
+ *
  * @template TNode The model in which to search for the path.
  * @template TKeypath The keypath of the node for which to get the path.
- * 
- * @example
-    ```ts
-    import { dir, file, collectPath } from "path-master";
-
-    const myModel = dir("d0", {
-      file1: file("f1"),
-      dir1: dir(({ dirParam }: { dirParam: string }) => `d1_${dirParam}`, {
-        file2: file(({ fileParam }: { fileParam: number }) => `f2_${fileParam}`),
-      }),
-    });
-
-    type RootExample = collectPath<typeof myModel, "">;
-    //   ^? "d0"
-
-    type File2Example = collectPath<typeof myModel, "dir1.file2">;
-    //   ^? `d0/d1_${string}/f2_${number}`
-    ```
  */
 export type collectPath<
   TNode extends Node,
