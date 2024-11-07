@@ -1,6 +1,6 @@
 {
   "name": "@midzdotdev/path-master",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "exports": "./src/mod.ts",
   "publish": {
     "include": ["src/", "jsr.json", "LICENSE", "package.json", "README.md"],
