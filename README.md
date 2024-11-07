@@ -1,5 +1,3 @@
-# path-master
-
 [![JSR](https://jsr.io/badges/@midzdotdev/path-master)](https://jsr.io/@midzdotdev/path-master)
 [![Release Workflow](https://github.com/midzdotdev/path-master/actions/workflows/release.yml/badge.svg)](https://github.com/midzdotdev/path-master/actions/workflows/release.yml)
 
@@ -10,20 +8,93 @@ You can think of `path-master` as providing structure to files in the same way t
 Path Master provides a whole host of benefits:
 
 - 🏡 **Centralised:** a single source of truth for defining paths
-- 🧬 **Consistent:** standardises your path generation
-- ✨ **Type-safe:** parameters are typed, and path types are inferred
 - 📊 **Parameterised:** paths are as dynamic as you need
+- ✨ **Type-safe:** parameters are typed, and path types are inferred
 - 📈 **Incremental:** model a complete file structure or just parts of it
+- 🧬 **Consistent:** standardises your path generation
 
 > This library does not modify any filesystem directly,
 > it's solely for modelling and generating paths.
 
-The applications for this are endless, but commonly useful with:
+It can be used anywhere paths are used, such as:
 
-- 💾 **Local Filesystem:** for local storage (e.g. via Node.js `fs` module)
 - ☁️ **S3 Buckets:** for remote storage in the cloud
+- 💾 **Local Filesystem:** for local storage (e.g. via Node.js `fs` module)
 - 🧭 **Origin Private File System:** for local storage in web apps
 - 🌎 **Relative URLs:** between resources on the web
+
+## Quickstart Guide
+
+1. **Model** your file structure with `dir` and `file`
+2. **Get paths**, either:
+   - **to a file/dir** with `getPath`
+   - **between files/dirs** with `getRelativeFsPath` or `getRelativeUrlPath`
+
+Here is a model to represent a HLS video package file structure and how to get paths with `getPath` and `getRelativeUrlPath`.
+
+```ts
+import { dir, file, getPath, getRelativeUrlPath } from '@midzdotdev/path-master'
+
+/* This is the file structure we're modelling:
+
+    .
+    └── videos
+        └── [videoId]
+            ├── master.m3u8
+            └── stream_[quality]
+                ├── playlist.m3u8
+                └── segment_[segmentId].ts
+*/
+
+const hlsPackageModel = dir(
+  ({ videoId }: { videoId: number }) => `videos/${videoId}`,
+  {
+    manifest: file(`master.m3u8`),
+    variantStream: dir(
+      ({ quality }: { quality: 720 | 1080 }) => `stream_${quality}`,
+      {
+        playlist: file(`playlist.m3u8`),
+        segment: file(
+          ({ segmentId }: { segmentId: number }) => `segment_${segmentId}.ts`
+        ),
+      }
+    ),
+  }
+)
+
+const hlsPackagePath = getPath(hlsPackageModel, '', { videoId: 42 })
+// result: "videos/42/"
+
+const streamPlaylist = getPath(hlsPackageModel, 'variantStream.playlist', {
+  videoId: 42,
+  quality: 720,
+})
+// result: "videos/42/stream_720/playlist.m3u8"
+
+const masterPlaylistToVariantPlaylist = getRelativeUrlPath(
+  hlsPackageModel,
+  ['manifest', { videoId: 42 }],
+  ['variantStream.playlist', { videoId: 42, quality: 720 }]
+)
+// result: "stream_720/playlist.m3u8"
+```
+
+<p align="center">
+  <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTJxYmk3YnZyOXc1c2U5Y2cxdjdjbGJlanpmbGx1M3l5cGc0YWtraCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/a0h7sAqON67nO/giphy.gif" style="max-width: 300px"/>
+</p>
+
+> If the Quickstart Guide doesn't make sense, don't worry! The rest of this README will cover everything you need to know.
+
+# Table of Contents
+
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Conceptualising Models](#conceptualising-models)
+  - [Abstracting large models](#abstracting-large-models)
+- [Create a Model](#create-a-model)
+- [Get Paths](#get-paths)
+- [Get Relative Paths](#get-relative-paths)
+- [Contributing](#contributing)
 
 ## Introduction
 
@@ -83,8 +154,6 @@ The following table gives us some examples of concrete paths for different nodes
 
 > Note that the path is relative to the root of the model (represented by `.` [in the psuedo-model](#psuedo-model)).
 
-Hopefully now modelling a file structure make sense as a concept. Let's move onto the code.
-
 ## Create a Model
 
 The library exposes two helper functions `file` and `dir` for us to build our model.
@@ -125,48 +194,10 @@ const deepDir = dir('deep_dir', {
 })
 ```
 
-### Example: Modelling our HLS package
+> The path of a node in the model can span across multiple directories (e.g. `videos/${videoId}` above).
+> This can help to produce a more concise model when dealing with deeply nested structures.
 
-Let's fully model [our original example](#psuedo-model).
-
-Here is the desired psuedo-model copied for convenience:
-
-```
-.
-└── videos
-    └── [videoId]
-        ├── master.m3u8
-        └── stream_[quality]
-            ├── playlist.m3u8
-            └── segment_[segmentId].ts
-```
-
-Using our `dir` and `file` modelling functions, we can define our model:
-
-```ts
-import { dir, file } from '@midzdotdev/path-master'
-
-const hlsPackageModel = dir(
-  ({ videoId }: { videoId: number }) => `videos/${videoId}`,
-  {
-    manifest: file(`master.m3u8`),
-    variantStream: dir(
-      ({ quality }: { quality: 720 | 1080 }) => `stream_${quality}`,
-      {
-        playlist: file(`playlist.m3u8`),
-        segment: file(
-          ({ segmentId }: { segmentId: number }) => `segment_${segmentId}.ts`
-        ),
-      }
-    ),
-  }
-)
-```
-
-The path of a node in the model can span across multiple directories (e.g. `videos/${videoId}` above).
-This can help to produce a more concise model when dealing with deeply nested structures.
-
-### Abstracting large models
+## Abstracting large models
 
 If you're working with a very large model, it might be clearer to define parts of a model separately, then join them together into one main model.
 
@@ -174,7 +205,7 @@ If all the parts are together in a single file, then you can `export` the main m
 
 Ideally a model should fully describe the structure of a storage destination. This way your model's root aligns with the storage's root and the paths given by `path-master` can be used directly as absolute paths.
 
-## Getting Paths
+## Get Paths
 
 Now that we have a model, let's address the reason that we're here in the first place! Let's get some paths.
 
@@ -235,7 +266,7 @@ const segment11 = getPath(hlsPackageModel, 'variantStream.segment', {
 
 > Notice that the type of the path is properly inferred from the model definition.
 
-## Getting Relative Paths
+## Get Relative Paths
 
 You can get relative paths between nodes, so long as they're in the same model.
 
@@ -246,7 +277,7 @@ The relative path from `a/b` to `a/c/d`:
 - in a filesystem is `../c/d`
 - in a URL is `c/d`
 
-> Have a play around with this yourself to better understand the difference.
+> You can have a play around with this yourself to better understand the difference.
 >
 > - Use the Node REPL with `path.relative(from, to)` for filesystem paths
 > - Use the browser console with `new URL(relativePath, fromUrl)` for URL paths
@@ -256,17 +287,17 @@ As a result we have two separate functions for each use-case:
 - filesystem paths: `getRelativeFsPath`
 - URL paths: `getRelativeUrlPath`
 
-Both of these functions have an identical signature.
+Both of these functions have an identical signature that looks like this.
 
 ```ts
 declare const x: (
-  model: FileNode | DirNode,
+  model: DirNode,
   from: string | [keypath: string, dependencies: {}],
   to: string | [keypath: string, dependencies: {}]
 ) => string
 ```
 
-> If the node specified by _from_ or _to_'s keypath does not require dependencies, then you can just pass the keypath string.
+> When the node specified for _from_ or _to_ has no dependencies, then you can just pass the keypath string.
 
 Since our example model being a HLS package only concerns itself with URLs, we'll demonstrate with `getRelativeUrlPath`.
 
