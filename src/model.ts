@@ -4,6 +4,7 @@ type Path<TDependencies, TPathName extends string> =
   | TPathName
   | ((dependencies: TDependencies) => TPathName)
 
+/** Represents a file node when modelling as given by {@link file}. */
 export interface FileNode<
   TDependencies = any,
   TPathName extends string = string,
@@ -11,6 +12,7 @@ export interface FileNode<
   path: Path<TDependencies, TPathName>
 }
 
+/** Represents a directory node when modelling as given by {@link dir}. */
 export interface DirNode<
   TDependencies = any,
   TPathName extends string = string,
@@ -42,11 +44,28 @@ type ChildrenArg<TChildren> =
         : "Error: Children must only have Nodes as values."
       : "Error: Children should only have string keys."
 
+/**
+ * Creates a file node for modelling.
+ *
+ * @param path The path segment of the file node (including extension).
+ * @returns A file node.
+ *
+ * @see {@link https://jsr.io/@midzdotdev/path-master#create-a-model}
+ */
 export const file = <TDependencies, TPathName extends string>(
   path: PathArg<TDependencies, TPathName>
 ): FileNode<TDependencies, TPathName> =>
   ({ path }) as FileNode<TDependencies, TPathName>
 
+/**
+ * Creates a directory node for modelling.
+ *
+ * @param path The path segment of the directory node (excluding trailing slash).
+ * @param children The file and directory nodes within this directory.
+ * @returns A directory node.
+ *
+ * @see {@link https://jsr.io/@midzdotdev/path-master#create-a-model}
+ */
 export const dir = <TDependencies, const TPathName extends string, TChildren>(
   path: PathArg<TDependencies, TPathName>,
   children: ChildrenArg<TChildren>
