@@ -2,9 +2,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "tsc",
-    "test": "vitest --typecheck",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint:prettier": "prettier --check .",
+    "lint:tsc": "tsc --noEmit",
+    "lint": "npm run lint:prettier && npm run lint:tsc",
+    "format": "prettier --write .",
+    "test": "vitest --typecheck"
   },
   "dependencies": {
     "ts-toolbelt": "^9.6.0"
