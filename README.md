@@ -79,6 +79,9 @@ const masterPlaylistToVariantPlaylist = getRelativeUrlPath(
 // result: "stream_720/playlist.m3u8"
 ```
 
+> As you can see in above (`videos/${videoId}`), the path of a node in the model can span across multiple directories.
+> This can help to produce a more concise model when dealing with deeply nested structures.
+
 <p align="center">
   <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTJxYmk3YnZyOXc1c2U5Y2cxdjdjbGJlanpmbGx1M3l5cGc0YWtraCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/a0h7sAqON67nO/giphy.gif" style="max-width: 300px"/>
 </p>
@@ -194,8 +197,7 @@ const deepDir = dir('deep_dir', {
 })
 ```
 
-> The path of a node in the model can span across multiple directories (e.g. `videos/${videoId}` above).
-> This can help to produce a more concise model when dealing with deeply nested structures.
+> Ideally a model should fully describe the structure of a storage destination. This way your model's root aligns with the storage's root and the paths given by `path-master` can be used directly as absolute paths.
 
 ## Abstracting large models
 
@@ -203,7 +205,27 @@ If you're working with a very large model, it might be clearer to define parts o
 
 If all the parts are together in a single file, then you can `export` the main model to remove any ambiguity about which model should be used in other parts of your application.
 
-Ideally a model should fully describe the structure of a storage destination. This way your model's root aligns with the storage's root and the paths given by `path-master` can be used directly as absolute paths.
+```ts
+import { dir, file } from '@midzdotdev/path-master'
+
+const variantStream = dir(
+  ({ quality }: { quality: 720 | 1080 }) => `stream_${quality}`,
+  {
+    playlist: file(`playlist.m3u8`),
+    segment: file(
+      ({ segmentId }: { segmentId: number }) => `segment_${segmentId}.ts`
+    ),
+  }
+)
+
+export const hlsPackageModel = dir(
+  ({ videoId }: { videoId: number }) => `videos/${videoId}`,
+  {
+    manifest: file(`master.m3u8`),
+    variantStream,
+  }
+)
+```
 
 ## Get Paths
 
