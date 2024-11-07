@@ -14,7 +14,7 @@ Path Master provides a whole host of benefits:
 - 🧬 **Consistent:** standardises your path generation
 
 > This library does not modify any filesystem directly,
-> it's solely for modelling and generating paths.
+> it's solely for modelling and getting paths.
 
 It can be used anywhere paths are used, such as:
 
@@ -116,7 +116,7 @@ Make sure to install the `@midzdotdev/path-master` package from [JSR](https://js
 
 ## Conceptualising Models
 
-In order to generate paths, we need to model the shape of our file structure. Before diving straight into the code, let's make sure we understand this kind of modelling as a concept.
+In order to get paths, we need to model the shape of our file structure. Before diving straight into the code, let's make sure we understand this kind of modelling as a concept.
 
 As an example, we're going to be modelling a collection of HTTP Live Streaming (HLS) video packages.
 
@@ -140,7 +140,7 @@ Notice the square brackets above (`[]`), where we've parameterised the parts of 
 
 The name of the `videos` directory is static so there will only be one, but there could be any number of directories within `videos` because of the parameterised `[videoId]` part. The same idea applies to the `master.m3u8` and `segment_[segmentId].ts` files.
 
-In `path-master`, these parameters are referred to as _dependencies_ and are always named so that when we generate paths, we know what value to use for each parameterised part of the path.
+In `path-master`, these parameters are referred to as _dependencies_ and are always named so we know which values to use when forming a path.
 
 The following table gives us some examples of concrete paths for different nodes in the tree, each with the required dependencies.
 
@@ -209,7 +209,7 @@ Ideally a model should fully describe the structure of a storage destination. Th
 
 Now that we have a model, let's address the reason that we're here in the first place! Let's get some paths.
 
-We can generate paths by calling the `getPath` function.
+We can get the path to a node by calling the `getPath` function.
 
 ```ts
 declare const getPath: (

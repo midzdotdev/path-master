@@ -48,8 +48,8 @@ type _getKeypaths<
  * Collects the dependencies of a node (specified by its keypath) all the way
  * from the root.
  *
- * Dependencies are the data required to generate the path of a node, and are
- * defined with as an object type.
+ * Dependencies are the data required to get the path of a node, and are defined
+ * as an object of strings to values.
  *
  * @example
  *   import { dir, file, collectDependencies } from '@midzdotdev/path-master'
