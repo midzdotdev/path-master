@@ -10,7 +10,7 @@ import { getChildren, getDependencies, getPath } from './single-node'
  * The root node has a keypath of "".
  *
  * @example
- *   import { dir, file, getKeypaths } from 'path-master'
+ *   import { dir, file, getKeypaths } from '@midzdotdev/path-master'
  *
  *   const myModel = dir('d0', {
  *     file1: file('f1'),
@@ -52,7 +52,7 @@ type _getKeypaths<
  * defined with as an object type.
  *
  * @example
- *   import { dir, file, collectDependencies } from 'path-master'
+ *   import { dir, file, collectDependencies } from '@midzdotdev/path-master'
  *
  *   const myModel = dir('d0', {
  *     file1: file('f1'),
@@ -109,7 +109,7 @@ type _collectDependencies<
  * path during the tree traversal.
  *
  * @example
- *   import { dir, file, collectPath } from 'path-master'
+ *   import { dir, file, collectPath } from '@midzdotdev/path-master'
  *
  *   const myModel = dir('d0', {
  *     file1: file('f1'),
