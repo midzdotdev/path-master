@@ -1,38 +1,38 @@
 import { EmptyRecord } from './utils/types'
 
-type Path<TDependencies, TPathName extends string> =
-  | TPathName
-  | ((dependencies: TDependencies) => TPathName)
+type Path<TDependencies, TPathname extends string> =
+  | TPathname
+  | ((dependencies: TDependencies) => TPathname)
 
 /** Represents a file node when modelling as given by {@link file}. */
 export interface FileNode<
   TDependencies = any,
-  TPathName extends string = string,
+  TPathname extends string = string,
 > {
-  path: Path<TDependencies, TPathName>
+  path: Path<TDependencies, TPathname>
 }
 
 /** Represents a directory node when modelling as given by {@link dir}. */
 export interface DirNode<
   TDependencies = any,
-  TPathName extends string = string,
+  TPathname extends string = string,
   TChildren = any,
 > {
-  path: Path<TDependencies, TPathName>
+  path: Path<TDependencies, TPathname>
   children: TChildren
 }
 
 export type Node = FileNode<any, string> | DirNode<any, string, any>
 
 // prettier-ignore
-type PathArg<TDependencies, TPathName extends string> =
-  [TPathName] extends [""]
+type PathArg<TDependencies, TPathname extends string> =
+  [TPathname] extends [""]
     ? 'Error: Pathnames cannot be empty.'
     : unknown extends TDependencies
-      ? TPathName
+      ? TPathname
       : keyof TDependencies extends never
         ? 'Error: Dependencies should not be empty.'
-        : ((dependencies: TDependencies) => TPathName)
+        : ((dependencies: TDependencies) => TPathname)
 
 // prettier-ignore
 type ChildrenArg<TChildren> =
@@ -51,10 +51,10 @@ type ChildrenArg<TChildren> =
  * @returns A file node.
  * @see {@link https://jsr.io/@midzdotdev/path-master#create-a-model}
  */
-export const file = <TDependencies, TPathName extends string>(
-  path: PathArg<TDependencies, TPathName>
-): FileNode<TDependencies, TPathName> =>
-  ({ path }) as FileNode<TDependencies, TPathName>
+export const file = <TDependencies, TPathname extends string>(
+  path: PathArg<TDependencies, TPathname>
+): FileNode<TDependencies, TPathname> =>
+  ({ path }) as FileNode<TDependencies, TPathname>
 
 /**
  * Creates a directory node for modelling.
@@ -65,11 +65,11 @@ export const file = <TDependencies, TPathName extends string>(
  * @returns A directory node.
  * @see {@link https://jsr.io/@midzdotdev/path-master#create-a-model}
  */
-export const dir = <TDependencies, const TPathName extends string, TChildren>(
-  path: PathArg<TDependencies, TPathName>,
+export const dir = <TDependencies, const TPathname extends string, TChildren>(
+  path: PathArg<TDependencies, TPathname>,
   children: ChildrenArg<TChildren>
-): DirNode<TDependencies, TPathName, TChildren> =>
-  ({ path, children }) as DirNode<TDependencies, TPathName, TChildren>
+): DirNode<TDependencies, TPathname, TChildren> =>
+  ({ path, children }) as DirNode<TDependencies, TPathname, TChildren>
 
 export const isFileNode = (node: Node): node is FileNode =>
   'children' in node === false
