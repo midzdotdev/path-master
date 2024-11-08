@@ -1,4 +1,5 @@
 .DS_Store
+tsconfig.vitest-temp.json
 
 # Logs
 logs
