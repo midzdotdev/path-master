@@ -6,17 +6,17 @@ type Path<TDependencies, TPathname extends string> =
 
 /** Represents a file node when modelling as given by {@link file}. */
 export interface FileNode<
-  TDependencies = any,
-  TPathname extends string = string,
+  in TDependencies = any,
+  out TPathname extends string = string,
 > {
   path: Path<TDependencies, TPathname>
 }
 
 /** Represents a directory node when modelling as given by {@link dir}. */
 export interface DirNode<
-  TDependencies = any,
-  TPathname extends string = string,
-  TChildren = any,
+  in TDependencies = any,
+  out TPathname extends string = string,
+  out TChildren = any,
 > {
   path: Path<TDependencies, TPathname>
   children: TChildren
